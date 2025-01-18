@@ -7,6 +7,7 @@
 - The code for the frontend was only static and can be found at `resources/views/partials/content-page.blde.php` of the theme.
 - The WordPress username is: `admin`
 - The WordPress password is: `)Yq3A!h3C%LtVqX$Ff`
+- The local url for the wordpress is: `https://wordpress-wlywia.test` but can be changed on the DB.
 
 ### Plugin
 - I followed the demo plugin structure.
