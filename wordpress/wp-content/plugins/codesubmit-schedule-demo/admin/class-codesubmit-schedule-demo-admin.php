@@ -163,7 +163,7 @@ class Codesubmit_Schedule_Demo_Admin {
 		$format = '12';
 		$start = strtotime('12:00am');
 		$end = strtotime('11:59pm');
-		$current_time = time();
+		$current_time = current_time('timestamp');
 		$add_time = strtotime('+'.$interval, $current_time);
 		$time_diff = $add_time - $current_time;
 		$times = array();

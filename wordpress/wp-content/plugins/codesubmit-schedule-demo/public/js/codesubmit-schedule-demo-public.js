@@ -29,4 +29,37 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+	$(document).ready(function() {
+		$('[data-sc-toggle]').click(function() {
+			var modal = $(this).data('sc-toggle');
+			$(modal).attr('aria-hidden', 'false').css('display', 'block');
+			$('body').append('<div class="schedule-demo-modal-backdrop fade"></div>');
+			setTimeout(function() {
+				$(modal).addClass('show');
+				$('.schedule-demo-modal-backdrop').addClass('show');
+			}, 100);
+		});
+
+		$('.schedule-demo-modal').click(function (ev) {
+			if ($(ev.target).hasClass('schedule-demo-modal')) {
+				var modal = $(this);
+				modal.removeClass('show');
+				$('.schedule-demo-modal-backdrop').removeClass('show');
+				setTimeout(function() {
+					modal.attr('aria-hidden', 'true').css('display', 'none');
+					$('.schedule-demo-modal-backdrop').remove();
+				}, 100);
+			}
+		});
+
+		$('.schedule-demo-modal-close').click(function () {
+			var modal = $(this).parents('.schedule-demo-modal');
+			modal.removeClass('show');
+			$('.schedule-demo-modal-backdrop').removeClass('show');
+			setTimeout(function() {
+				modal.attr('aria-hidden', 'true').css('display', 'none');
+				$('.schedule-demo-modal-backdrop').remove();
+			}, 100);
+		});
+	});
 })( jQuery );

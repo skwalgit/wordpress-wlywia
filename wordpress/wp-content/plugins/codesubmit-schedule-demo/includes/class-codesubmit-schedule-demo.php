@@ -79,8 +79,6 @@ class Codesubmit_Schedule_Demo {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		$this->define_shortcode();
-
 	}
 
 	/**
@@ -123,13 +121,6 @@ class Codesubmit_Schedule_Demo {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-codesubmit-schedule-demo-public.php';
-
-		/**
-		 * The class responsible for shortcode
-		 * side of the site.
-		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-codesubmit-schedule-demo-shortcode.php';
-
 
 		$this->loader = new Codesubmit_Schedule_Demo_Loader();
 
@@ -182,13 +173,8 @@ class Codesubmit_Schedule_Demo {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'init', $plugin_public, 'register_shortcode' );
 
-	}
-
-	private function define_shortcode() {
-		$plugin_shortcode = new Codesubmit_Schedule_Demo_Shortcode( $this->get_plugin_name(), $this->get_version() );
-
-		$this->loader->add_action( 'init', $plugin_shortcode, 'register_shortcode' );
 	}
 
 	/**

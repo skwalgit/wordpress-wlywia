@@ -100,4 +100,57 @@ class Codesubmit_Schedule_Demo_Public {
 
 	}
 
+		/**
+	 * Register the plugin shortcode.
+	 *
+	 * @since    1.0.0
+	 */
+    public function register_shortcode() {
+        add_shortcode('schedule-demo', function ($atts) {
+			$options = get_option( 'schedule_demo_options' );
+			$phone = ( isset($options['schedule_demo_phone']) ? $options['schedule_demo_phone'] : ( '' ) );
+			$schedules = ( isset($options['schedule_demo_schedules']) ? $options['schedule_demo_schedules'] : ( '' ) );
+
+			$schedules = array(
+				'monday' => ['start' => '', 'end' => ''],
+				'tuesday' => ['start' => '', 'end' => ''],
+				'wednesday' => ['start' => '', 'end' => ''],
+				'thursday' => ['start' => '', 'end' => ''],
+				'friday' => ['start' => '', 'end' => ''],
+				'saturday' => ['start' => '', 'end' => ''],
+				'sunday' => ['start' => '', 'end' => ''],
+			);
+
+			if ( isset( $options['schedule_demo_schedules'] ) ) {
+				$schedules = wp_parse_args($options['schedule_demo_schedules'], $schedules);
+			}
+
+			$today = current_time( 'timestamp' );
+			$current_day = strtolower( current_time('l') );
+			$end = strtotime( $current_day . ' ' . $schedules[$current_day]['end'] );
+			$active = ( ( $end > $today ) ? true : false);
+			$next = '';
+
+			if ( ! $active ) {
+				$key = date( 'N', strtotime($current_day) );
+				if ( $key > 0 ) {
+					$upcomming = array_splice( $schedules, $key, 6 );
+					$upnext = array_splice( $schedules, 0, $key );
+
+					$schedules = array_merge( $upcomming, $upnext );
+				}
+			}
+
+			foreach( $schedules as $day => $schedule ) {
+				if (!$schedule['start']) continue;
+
+				$next = date('F d, Y', strtotime($day . ' ' . $schedule['start'])) . ' / ' . ucfirst($day) . ' on ' . $schedule['start'] . ' - ' . $schedule['end'];
+				break;
+			}
+
+			include_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/codesubmit-schedule-demo-public-display.php';
+		});
+
+    }
+
 }
