@@ -5,6 +5,8 @@
 - The theme uses laravel's blade template engine for wp templates.
 - I have included the database for the WordPress in the root folder.
 - The code for the frontend was only static and can be found at `resources/views/partials/content-page.blde.php` of the theme.
+- The WordPress username is: `admin`
+- The WordPress password is: `)Yq3A!h3C%LtVqX$Ff`
 
 ### Plugin
 - I followed the demo plugin structure.
