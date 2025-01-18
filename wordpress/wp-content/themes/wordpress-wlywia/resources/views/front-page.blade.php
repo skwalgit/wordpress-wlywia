@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-  @while(have_posts()) @php(the_post())
+  @while(have_posts()) @php the_post() @endphp
     <section class="hero">
       <div class="container">
         <div class="inner-wrapper">
@@ -11,7 +11,7 @@
               <h1>Powerful Insights Into Your Team</h1>
               <p>Project planning and time tracking for agile teams</p>
               <div class="actions d-flex">
-                <button class="btn btn-primary" type="button">Schedule a demo</button>
+                @php echo do_shortcode('[schedule-demo]') @endphp
                 <button class="btn btn-link">To see a preview</button>
               </div>
             </div>

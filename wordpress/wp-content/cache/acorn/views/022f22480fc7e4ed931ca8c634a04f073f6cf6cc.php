@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-  <?php while(have_posts()): ?> <?php (the_post()); ?>
+  <?php while(have_posts()): ?> <?php the_post() ?>
     <section class="hero">
       <div class="container">
         <div class="inner-wrapper">
@@ -11,7 +11,7 @@
               <h1>Powerful Insights Into Your Team</h1>
               <p>Project planning and time tracking for agile teams</p>
               <div class="actions d-flex">
-                <button class="btn btn-primary" type="button">Schedule a demo</button>
+                <?php echo do_shortcode('[schedule-demo]') ?>
                 <button class="btn btn-link">To see a preview</button>
               </div>
             </div>
@@ -25,5 +25,4 @@
     
   <?php endwhile; ?>
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\wordpress-wlywia\wordpress\wp-content\themes\wordpress-wlywia\resources\views/front-page.blade.php ENDPATH**/ ?>

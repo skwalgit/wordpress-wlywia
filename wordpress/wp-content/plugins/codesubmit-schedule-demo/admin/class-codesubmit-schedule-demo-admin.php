@@ -100,4 +100,118 @@ class Codesubmit_Schedule_Demo_Admin {
 
 	}
 
+	/**
+	 * Register admin menu settings.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_menu_settings() {
+		register_setting( 'schedule_demo', 'schedule_demo_options' );
+
+		add_settings_section(
+			'schedule_demo_section',
+			__( 'Settings', 'codesubmit-schedule-demo' ),
+			array( $this, 'section_callback' ),
+			'schedule_demo'
+		);
+
+		add_settings_field(
+			'schedule_demo_field_phone',
+			__( 'Phone', 'codesubmit-schedule-demo' ),
+			array( $this, 'phone_settings_callback' ),
+			'schedule_demo',
+			'schedule_demo_section',
+			array( 'label_for' => 'schedule_demo_phone' )
+		);
+
+		add_settings_field(
+			'schedule_demo_field_schedules',
+			__( 'Schedules', 'codesubmit-schedule-demo' ),
+			array( $this, 'schedules_settings_callback' ),
+			'schedule_demo',
+			'schedule_demo_section',
+			array( 'label_for' => 'schedule_demo_schedules' )
+		);
+	}
+
+	/**
+	 * Placeholder callback for schedule_demo_section.
+	 *
+	 * @since    1.0.0
+	 */
+	public function section_callback($args) {}
+
+	/**
+	 * Callback for phone settings.
+	 *
+	 * @since    1.0.0
+	 */
+	public function phone_settings_callback($args) {
+		$options = get_option( 'schedule_demo_options' );
+		echo '<input id="' . esc_attr( $args['label_for'] ) . '" type="tel" name="schedule_demo_options[' . esc_attr( $args['label_for'] ) . ']" value="' . ( isset( $options[ $args['label_for'] ] ) ? esc_attr( $options[ $args['label_for'] ] ) : ( '' ) ) . '">';
+	}
+
+	/**
+	 * Callback for schedule settings.
+	 *
+	 * @since    1.0.0
+	 */
+	public function schedules_settings_callback($args) {
+		$options = get_option( 'schedule_demo_options' );
+		
+		$interval = '30 mins';
+		$format = '12';
+		$start = strtotime('12:00am');
+		$end = strtotime('11:59pm');
+		$current_time = time();
+		$add_time = strtotime('+'.$interval, $current_time);
+		$time_diff = $add_time - $current_time;
+		$times = array();
+		$time_format = ($format == '12')?'g:i A':'G:i';
+
+		while ($start < $end) {
+			$times[] = date($time_format, $start);
+			$start += $time_diff;
+		}
+
+		$schedules = array(
+			'monday' => ['start' => '', 'end' => ''],
+			'tuesday' => ['start' => '', 'end' => ''],
+			'wednesday' => ['start' => '', 'end' => ''],
+			'thursday' => ['start' => '', 'end' => ''],
+			'friday' => ['start' => '', 'end' => ''],
+			'saturday' => ['start' => '', 'end' => ''],
+			'sunday' => ['start' => '', 'end' => ''],
+		);
+		
+		if ( isset( $options[ $args['label_for'] ] ) ) {
+			$schedules = wp_parse_args($options[ $args['label_for'] ], $schedules);
+		}
+
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/codesubmit-schedule-demo-admin-display-schedules.php';
+
+	}
+
+	/**
+	 * Register admin menu.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_menu_page() {
+		add_menu_page(
+			__('Schedule Demo', 'codesubmit-schedule-demo'),
+			__('Set Schedule', 'codesubmit-schedule-demo'),
+			'manage_options',
+			'schedule_demo',
+			array( $this, 'admin_menu_display' ),
+			'dashicons-schedule'
+		);
+
+	}
+
+	public function admin_menu_display() {
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/codesubmit-schedule-demo-admin-display.php';
+
+	}
+
 }
