@@ -134,7 +134,7 @@
   .nav-link {
     font-family: $headings-font-family;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.48px;
     font-weight: $font-weight-bold;
     
     &:hover {
@@ -149,7 +149,7 @@
       text-align: center;
       padding-left: 15px;
       padding-right: 15px;
-      letter-spacing: 0.03888888888888889em;
+      letter-spacing: 1.26px;
     }
   }
 
@@ -168,7 +168,7 @@
   .btn-link-header {
     font-family: $headings-font-family;
     text-transform: uppercase;
-    letter-spacing: 0.3;
+    letter-spacing: 0.48px;
     font-weight: $font-weight-bold;
     color: $gray-500;
     text-decoration: none;
@@ -182,6 +182,7 @@
 
     @include media-breakpoint-down(lg) {
       font-size: rem-calc(18);
+      letter-spacing: 1.26px;
     }
 
     &:hover {

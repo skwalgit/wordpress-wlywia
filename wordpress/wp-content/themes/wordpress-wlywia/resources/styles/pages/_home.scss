@@ -41,13 +41,18 @@
                     }
                 }
             }
+
+            @include media-breakpoint-down(lg) {
+                padding-bottom: 87px;
+            }
         }
     }
     h1 {
-        margin-bottom: 32px;
         text-transform: uppercase;
+        margin-bottom: 16px;
 
         @include media-breakpoint-up(lg) {
+            margin-bottom: 32px;
             max-width: 470px;
             & + p {
                 max-width: 276px;
@@ -56,7 +61,11 @@
     }
 
     .actions {
-        margin-top: 64px;
         gap: 25px;
+        margin-top: 27px;
+
+        @include media-breakpoint-up(lg) {
+            margin-top: 64px;
+        }
     }
 }
