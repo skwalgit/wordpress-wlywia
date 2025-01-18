@@ -1,0 +1,38 @@
+@import "common/variables";
+@import "common/custom-variables";
+
+/** Import everything from autoload */
+@import "./autoload/**/*";
+
+/**
+ * Import npm dependencies
+ *
+ * Prefix your imports with `~` to grab from node_modules/
+ * @see https://github.com/webpack-contrib/sass-loader#imports
+ */
+// @import "~some-node-module";
+
+/** Import theme styles */
+// Global
+@import "common/global";
+
+// Components
+@import "components/buttons";
+@import "components/comments";
+@import "components/forms";
+@import "components/badge";
+@import "components/wp-classes";
+
+// Autoload all blocks
+@import "./blocks/**/*";
+
+// Layouts
+@import "layouts/header";
+@import "layouts/navbar";
+@import "layouts/sidebar";
+@import "layouts/footer";
+@import "layouts/pages";
+@import "layouts/posts";
+
+// Autoload all pages
+@import "./pages/**/*";

@@ -1,0 +1,28 @@
+.btn {
+  text-rendering: geometricPrecision;
+  letter-spacing: 0.1;
+  text-transform: uppercase;
+  line-height: normal;
+  padding: 12px 31px;
+
+  &:hover {
+    background-color: hsl(0, 100%, 76%);
+    border-color: hsl(0, 100%, 76%);
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &.btn-link:not(.btn-link-header) {
+    background-color: transparent;
+    padding: 0;
+    border: 0;
+    text-decoration: none;
+    color: $gray-500;
+    &:hover {
+      color: $gray-500;
+      text-decoration: underline;
+    }
+  }
+}

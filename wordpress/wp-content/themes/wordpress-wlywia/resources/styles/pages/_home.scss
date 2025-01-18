@@ -1,0 +1,62 @@
+.home {
+    .hero {
+        overflow: hidden;
+        padding-top: 125px;
+        padding-bottom: 80px;
+        @include media-breakpoint-up(lg) {
+            padding-top: 218px;
+        }
+
+        &::before {
+            position: absolute;
+            content: "";
+            background-color: $gray-200;
+            width: calc(50vw - 15px);
+            height: 427px;
+            top: 0;
+            right: 0;
+            border-bottom-left-radius: 60px;
+            z-index: -1;
+        }
+
+        .col-media {
+            figure {
+                @include media-breakpoint-up(lg) {
+                    width: calc(50vw - 15px);
+                    svg {
+                        width: 100%;
+                    }
+                }
+
+                @include media-breakpoint-down(lg) {
+                    display: flex;
+                    justify-content: flex-end;
+                    position: relative;
+                    width: calc(100vw);
+                    left: 50%;
+                    transform: translateX(-50%);
+                    svg {
+                        width: auto;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+    h1 {
+        margin-bottom: 32px;
+        text-transform: uppercase;
+
+        @include media-breakpoint-up(lg) {
+            max-width: 470px;
+            & + p {
+                max-width: 276px;
+            }
+        }
+    }
+
+    .actions {
+        margin-top: 64px;
+        gap: 25px;
+    }
+}

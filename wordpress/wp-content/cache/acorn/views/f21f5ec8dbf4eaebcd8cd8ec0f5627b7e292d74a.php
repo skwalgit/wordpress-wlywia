@@ -1,0 +1,1 @@
+<?php /**PATH C:\laragon\www\wordpress-wlywia\wordpress\wp-content\themes\wordpress-wlywia\resources\views/partials/footer.blade.php ENDPATH**/ ?>
