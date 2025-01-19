@@ -96,11 +96,13 @@ class Codesubmit_Schedule_Demo_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/codesubmit-schedule-demo-public.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/codesubmit-schedule-demo-public.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'scheduleDemo', [ 'notification_url' => get_rest_url() . 'schedule-demo/v1/notification' ] );
+		wp_enqueue_script( $this->plugin_name );
 
 	}
 
-		/**
+	/**
 	 * Register the plugin shortcode.
 	 *
 	 * @since    1.0.0
@@ -144,7 +146,11 @@ class Codesubmit_Schedule_Demo_Public {
 			foreach( $schedules as $day => $schedule ) {
 				if (!$schedule['start']) continue;
 
-				$next = date('F d, Y', strtotime($day . ' ' . $schedule['start'])) . ' / ' . ucfirst($day) . ' on ' . $schedule['start'] . ' - ' . $schedule['end'];
+				$next_start_date = date('F d, Y', strtotime($day . ' ' . $schedule['start']));
+				$next_start_time = $schedule['start'];
+				$next_end_time = $schedule['end'];
+				$next = $next_start_date . ' / ' . ucfirst($day) . ' on ' . $next_start_time . ' - ' . $next_end_time;
+
 				break;
 			}
 
@@ -153,4 +159,54 @@ class Codesubmit_Schedule_Demo_Public {
 
     }
 
+	/**
+	 * Register rest notification endpoint.
+	 *
+	 * @since    1.0.0
+	 */
+	public function register_notification_endpoint() {
+		register_rest_route( 'schedule-demo/v1', '/notification', array(
+			'methods' => 'POST',
+			'callback' => array( $this, 'add_notification' ),
+		) );
+
+	}
+
+	/**
+	 * WP Reset notification endpoint callback.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_notification(\WP_REST_Request $request) {
+		$date = sanitize_text_field( $request->get_param( 'schedule-demo-notification-schedule-date' ) );
+		$start = sanitize_text_field( $request->get_param( 'schedule-demo-notification-schedule-start' ) );
+		$end = sanitize_text_field( $request->get_param( 'schedule-demo-notification-schedule-end' ) );
+		$email = sanitize_email( $request->get_param( 'schedule-demo-notification-email' ) );
+
+		// Get notified one (1) hours before the schedule start time
+		$notification_date = strtotime( '-1 hour', strtotime( $date . ' ' . $start ) );
+		$notification_date = strtotime(get_gmt_from_date(date('F j, Y g:i A', $notification_date)));
+
+		wp_schedule_single_event( $notification_date, 'schedule_demo_notification_event', array( $date, $start, $end, $email )  );
+
+		return new WP_REST_Response(true, 200 );
+	}
+
+	/**
+	 * Run a single event cron to send an email to the subscribed email address from the notification form
+	 *
+	 * @since    1.0.0
+	 */
+	public function schedule_demo_notification($date, $start, $end, $email) {
+		$options = get_option( 'schedule_demo_options' );
+		$phone = ( isset($options['schedule_demo_phone']) ? $options['schedule_demo_phone'] : ( '' ) );
+		$subject = __( 'Schedule Demo Upcomming Schedule', 'codesubmit-schedule-demo' );
+
+		ob_start();
+		include_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/partials/codesubmit-schedule-demo-public-display-email.php';
+		$body = ob_get_clean();
+
+		wp_mail($email, $subject, $body, array( 'Content-Type: text/html; charset=UTF-8' ));
+
+	}
 }

@@ -61,5 +61,20 @@
 				$('.schedule-demo-modal-backdrop').remove();
 			}, 100);
 		});
+
+
+		$('.schedule-demo-get-notified-form').submit(function(ev) {
+			ev.preventDefault();
+
+			if (!$('.schedule-demo-notification-email').val()) return false;
+
+			$.post(scheduleDemo.notification_url, $(this).serialize(), function(data) {
+				if (data === true) {
+					$('.schedule-demo-get-notified-form').remove();
+					$('.schedule-demo-modal-body').append('<h3>Thank you</h3>');
+					$('.schedule-demo-modal-body').append('<p>You will be notified one (1) hour before the next schedule.</p>');
+				}
+			});
+		});
 	});
 })( jQuery );

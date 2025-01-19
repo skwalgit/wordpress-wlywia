@@ -173,7 +173,15 @@ class Codesubmit_Schedule_Demo {
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
+		// Register the shortcode
 		$this->loader->add_action( 'init', $plugin_public, 'register_shortcode' );
+
+		// Add a custom WP Rest endpoint for adding notification
+		$this->loader->add_action( 'rest_api_init', $plugin_public, 'register_notification_endpoint' );
+
+		// Create an cron event for notification to trigger one (1) hour before the next schedule demo
+		$this->loader->add_action( 'schedule_demo_notification_event', $plugin_public, 'schedule_demo_notification', 10, 4 );
 
 	}
 

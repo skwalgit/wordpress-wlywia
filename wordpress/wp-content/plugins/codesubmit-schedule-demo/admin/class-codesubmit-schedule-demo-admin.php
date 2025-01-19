@@ -199,8 +199,8 @@ class Codesubmit_Schedule_Demo_Admin {
 	 */
 	public function register_menu_page() {
 		add_menu_page(
-			__('Schedule Demo', 'codesubmit-schedule-demo'),
-			__('Set Schedule', 'codesubmit-schedule-demo'),
+			__( 'Schedule Demo', 'codesubmit-schedule-demo' ),
+			__( 'Set Schedule', 'codesubmit-schedule-demo' ),
 			'manage_options',
 			'schedule_demo',
 			array( $this, 'admin_menu_display' ),
